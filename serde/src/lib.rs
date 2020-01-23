@@ -112,6 +112,7 @@
         too_many_lines,
         // preference
         doc_markdown,
+        unseparated_literal_suffix,
         // false positive
         needless_doctest_main,
         // noisy
@@ -120,6 +121,7 @@
     )
 )]
 // Rustc lints.
+#![forbid(unsafe_code)]
 #![deny(missing_docs, unused_imports)]
 
 ////////////////////////////////////////////////////////////////////////////////
