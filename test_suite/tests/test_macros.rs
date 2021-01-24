@@ -1145,6 +1145,20 @@ fn test_adjacently_tagged_enum() {
         ],
     );
 
+    // optional newtype with no content field
+    assert_de_tokens(
+        &AdjacentlyTagged::Newtype::<Option<u8>>(None),
+        &[
+            Token::Struct {
+                name: "AdjacentlyTagged",
+                len: 1,
+            },
+            Token::Str("t"),
+            Token::Str("Newtype"),
+            Token::StructEnd,
+        ],
+    );
+
     // tuple with tag first
     assert_tokens(
         &AdjacentlyTagged::Tuple::<u8>(1, 1),
@@ -1863,4 +1877,32 @@ fn test_internally_tagged_newtype_variant_containing_unit_struct() {
             Token::MapEnd,
         ],
     );
+}
+
+#[deny(safe_packed_borrows)]
+#[test]
+fn test_packed_struct_can_derive_serialize() {
+    #[derive(Copy, Clone, Serialize)]
+    #[repr(packed, C)]
+    struct PackedC {
+        t: f32,
+    }
+
+    #[derive(Copy, Clone, Serialize)]
+    #[repr(C, packed)]
+    struct CPacked {
+        t: f32,
+    }
+
+    #[derive(Copy, Clone, Serialize)]
+    #[repr(C, packed(2))]
+    struct CPacked2 {
+        t: f32,
+    }
+
+    #[derive(Copy, Clone, Serialize)]
+    #[repr(packed(2), C)]
+    struct Packed2C {
+        t: f32,
+    }
 }

@@ -6,8 +6,11 @@
     allow(
         cognitive_complexity,
         redundant_field_names,
+        result_unit_err,
         trivially_copy_pass_by_ref,
-        wildcard_in_or_patterns
+        wildcard_in_or_patterns,
+        // clippy bug: https://github.com/rust-lang/rust-clippy/issues/5704
+        unnested_or_patterns,
     )
 )]
 

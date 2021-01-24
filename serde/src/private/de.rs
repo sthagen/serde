@@ -1,5 +1,6 @@
 use lib::*;
 
+use de::value::{BorrowedBytesDeserializer, BytesDeserializer};
 use de::{Deserialize, DeserializeSeed, Deserializer, Error, IntoDeserializer, Visitor};
 
 #[cfg(any(feature = "std", feature = "alloc"))]
@@ -53,9 +54,10 @@ where
 }
 
 #[cfg(any(feature = "std", feature = "alloc"))]
-pub fn borrow_cow_str<'de: 'a, 'a, D>(deserializer: D) -> Result<Cow<'a, str>, D::Error>
+pub fn borrow_cow_str<'de: 'a, 'a, D, R>(deserializer: D) -> Result<R, D::Error>
 where
     D: Deserializer<'de>,
+    R: From<Cow<'a, str>>,
 {
     struct CowStrVisitor;
 
@@ -121,13 +123,14 @@ where
         }
     }
 
-    deserializer.deserialize_str(CowStrVisitor)
+    deserializer.deserialize_str(CowStrVisitor).map(From::from)
 }
 
 #[cfg(any(feature = "std", feature = "alloc"))]
-pub fn borrow_cow_bytes<'de: 'a, 'a, D>(deserializer: D) -> Result<Cow<'a, [u8]>, D::Error>
+pub fn borrow_cow_bytes<'de: 'a, 'a, D, R>(deserializer: D) -> Result<R, D::Error>
 where
     D: Deserializer<'de>,
+    R: From<Cow<'a, [u8]>>,
 {
     struct CowBytesVisitor;
 
@@ -181,7 +184,9 @@ where
         }
     }
 
-    deserializer.deserialize_bytes(CowBytesVisitor)
+    deserializer
+        .deserialize_bytes(CowBytesVisitor)
+        .map(From::from)
 }
 
 pub mod size_hint {
@@ -820,15 +825,17 @@ mod content {
     /// Not public API.
     pub struct TaggedContentVisitor<'de, T> {
         tag_name: &'static str,
+        expecting: &'static str,
         value: PhantomData<TaggedContent<'de, T>>,
     }
 
     impl<'de, T> TaggedContentVisitor<'de, T> {
         /// Visitor for the content of an internally tagged enum with the given
         /// tag name.
-        pub fn new(name: &'static str) -> Self {
+        pub fn new(name: &'static str, expecting: &'static str) -> Self {
             TaggedContentVisitor {
                 tag_name: name,
+                expecting: expecting,
                 value: PhantomData,
             }
         }
@@ -857,7 +864,7 @@ mod content {
         type Value = TaggedContent<'de, T>;
 
         fn expecting(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-            fmt.write_str("internally tagged enum")
+            fmt.write_str(self.expecting)
         }
 
         fn visit_seq<S>(self, mut seq: S) -> Result<Self::Value, S::Error>
@@ -1558,7 +1565,7 @@ mod content {
                     other.unexpected(),
                     &"struct variant",
                 )),
-                _ => Err(de::Error::invalid_type(
+                None => Err(de::Error::invalid_type(
                     de::Unexpected::UnitVariant,
                     &"struct variant",
                 )),
@@ -2248,7 +2255,7 @@ mod content {
                     other.unexpected(),
                     &"struct variant",
                 )),
-                _ => Err(de::Error::invalid_type(
+                None => Err(de::Error::invalid_type(
                     de::Unexpected::UnitVariant,
                     &"struct variant",
                 )),
@@ -2470,7 +2477,7 @@ mod content {
         where
             M: MapAccess<'de>,
         {
-            while let Some(_) = try!(access.next_entry::<IgnoredAny, IgnoredAny>()) {}
+            while try!(access.next_entry::<IgnoredAny, IgnoredAny>()).is_some() {}
             Ok(())
         }
     }
@@ -2538,11 +2545,13 @@ pub trait IdentifierDeserializer<'de, E: Error> {
     fn from(self) -> Self::Deserializer;
 }
 
-impl<'de, E> IdentifierDeserializer<'de, E> for u32
+pub struct Borrowed<'de, T: 'de + ?Sized>(pub &'de T);
+
+impl<'de, E> IdentifierDeserializer<'de, E> for u64
 where
     E: Error,
 {
-    type Deserializer = <u32 as IntoDeserializer<'de, E>>::Deserializer;
+    type Deserializer = <u64 as IntoDeserializer<'de, E>>::Deserializer;
 
     fn from(self) -> Self::Deserializer {
         self.into_deserializer()
@@ -2552,20 +2561,6 @@ where
 pub struct StrDeserializer<'a, E> {
     value: &'a str,
     marker: PhantomData<E>,
-}
-
-impl<'a, E> IdentifierDeserializer<'a, E> for &'a str
-where
-    E: Error,
-{
-    type Deserializer = StrDeserializer<'a, E>;
-
-    fn from(self) -> Self::Deserializer {
-        StrDeserializer {
-            value: self,
-            marker: PhantomData,
-        }
-    }
 }
 
 impl<'de, 'a, E> Deserializer<'de> for StrDeserializer<'a, E>
@@ -2588,26 +2583,12 @@ where
     }
 }
 
-pub struct BytesDeserializer<'a, E> {
-    value: &'a [u8],
+pub struct BorrowedStrDeserializer<'de, E> {
+    value: &'de str,
     marker: PhantomData<E>,
 }
 
-impl<'a, E> IdentifierDeserializer<'a, E> for &'a [u8]
-where
-    E: Error,
-{
-    type Deserializer = BytesDeserializer<'a, E>;
-
-    fn from(self) -> Self::Deserializer {
-        BytesDeserializer {
-            value: self,
-            marker: PhantomData,
-        }
-    }
-}
-
-impl<'de, 'a, E> Deserializer<'de> for BytesDeserializer<'a, E>
+impl<'de, E> Deserializer<'de> for BorrowedStrDeserializer<'de, E>
 where
     E: Error,
 {
@@ -2617,13 +2598,63 @@ where
     where
         V: Visitor<'de>,
     {
-        visitor.visit_bytes(self.value)
+        visitor.visit_borrowed_str(self.value)
     }
 
     forward_to_deserialize_any! {
         bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f32 f64 char str string
         bytes byte_buf option unit unit_struct newtype_struct seq tuple
         tuple_struct map struct enum identifier ignored_any
+    }
+}
+
+impl<'a, E> IdentifierDeserializer<'a, E> for &'a str
+where
+    E: Error,
+{
+    type Deserializer = StrDeserializer<'a, E>;
+
+    fn from(self) -> Self::Deserializer {
+        StrDeserializer {
+            value: self,
+            marker: PhantomData,
+        }
+    }
+}
+
+impl<'de, E> IdentifierDeserializer<'de, E> for Borrowed<'de, str>
+where
+    E: Error,
+{
+    type Deserializer = BorrowedStrDeserializer<'de, E>;
+
+    fn from(self) -> Self::Deserializer {
+        BorrowedStrDeserializer {
+            value: self.0,
+            marker: PhantomData,
+        }
+    }
+}
+
+impl<'a, E> IdentifierDeserializer<'a, E> for &'a [u8]
+where
+    E: Error,
+{
+    type Deserializer = BytesDeserializer<'a, E>;
+
+    fn from(self) -> Self::Deserializer {
+        BytesDeserializer::new(self)
+    }
+}
+
+impl<'de, E> IdentifierDeserializer<'de, E> for Borrowed<'de, [u8]>
+where
+    E: Error,
+{
+    type Deserializer = BorrowedBytesDeserializer<'de, E>;
+
+    fn from(self) -> Self::Deserializer {
+        BorrowedBytesDeserializer::new(self.0)
     }
 }
 
@@ -2759,6 +2790,13 @@ where
         }
     }
 
+    fn deserialize_unit<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+    where
+        V: Visitor<'de>,
+    {
+        visitor.visit_unit()
+    }
+
     forward_to_deserialize_other! {
         deserialize_bool()
         deserialize_i8()
@@ -2776,7 +2814,6 @@ where
         deserialize_string()
         deserialize_bytes()
         deserialize_byte_buf()
-        deserialize_unit()
         deserialize_unit_struct(&'static str)
         deserialize_seq()
         deserialize_tuple(usize)

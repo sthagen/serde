@@ -5,10 +5,10 @@ pub enum GenericEnum<T, U> {
     Seq(T, U),
     Map { x: T, y: U },
 }
+#[doc(hidden)]
 #[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
-const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
-    #[allow(unknown_lints)]
-    #[allow(rust_2018_idioms)]
+const _: () = {
+    #[allow(rust_2018_idioms, clippy::useless_attribute)]
     extern crate serde as _serde;
     #[automatically_derived]
     impl<T, U> _serde::Serialize for GenericEnum<T, U>
@@ -16,7 +16,10 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
         T: _serde::Serialize,
         U: _serde::Serialize,
     {
-        fn serialize<__S>(&self, __serializer: __S) -> _serde::export::Result<__S::Ok, __S::Error>
+        fn serialize<__S>(
+            &self,
+            __serializer: __S,
+        ) -> _serde::__private::Result<__S::Ok, __S::Error>
         where
             __S: _serde::Serializer,
         {
@@ -44,27 +47,27 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
                         "Seq",
                         0 + 1 + 1,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     match _serde::ser::SerializeTupleVariant::serialize_field(
                         &mut __serde_state,
                         __field0,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     match _serde::ser::SerializeTupleVariant::serialize_field(
                         &mut __serde_state,
                         __field1,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     _serde::ser::SerializeTupleVariant::end(__serde_state)
@@ -77,9 +80,9 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
                         "Map",
                         0 + 1 + 1,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     match _serde::ser::SerializeStructVariant::serialize_field(
@@ -87,9 +90,9 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
                         "x",
                         x,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     match _serde::ser::SerializeStructVariant::serialize_field(
@@ -97,9 +100,9 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
                         "y",
                         y,
                     ) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     };
                     _serde::ser::SerializeStructVariant::end(__serde_state)
@@ -108,10 +111,10 @@ const _IMPL_SERIALIZE_FOR_GenericEnum: () = {
         }
     }
 };
+#[doc(hidden)]
 #[allow(non_upper_case_globals, unused_attributes, unused_qualifications)]
-const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
-    #[allow(unknown_lints)]
-    #[allow(rust_2018_idioms)]
+const _: () = {
+    #[allow(rust_2018_idioms, clippy::useless_attribute)]
     extern crate serde as _serde;
     #[automatically_derived]
     impl<'de, T, U> _serde::Deserialize<'de> for GenericEnum<T, U>
@@ -119,7 +122,7 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
         T: _serde::Deserialize<'de>,
         U: _serde::Deserialize<'de>,
     {
-        fn deserialize<__D>(__deserializer: __D) -> _serde::export::Result<Self, __D::Error>
+        fn deserialize<__D>(__deserializer: __D) -> _serde::__private::Result<Self, __D::Error>
         where
             __D: _serde::Deserializer<'de>,
         {
@@ -135,35 +138,38 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                 type Value = __Field;
                 fn expecting(
                     &self,
-                    __formatter: &mut _serde::export::Formatter,
-                ) -> _serde::export::fmt::Result {
-                    _serde::export::Formatter::write_str(__formatter, "variant identifier")
+                    __formatter: &mut _serde::__private::Formatter,
+                ) -> _serde::__private::fmt::Result {
+                    _serde::__private::Formatter::write_str(__formatter, "variant identifier")
                 }
-                fn visit_u64<__E>(self, __value: u64) -> _serde::export::Result<Self::Value, __E>
+                fn visit_u64<__E>(self, __value: u64) -> _serde::__private::Result<Self::Value, __E>
                 where
                     __E: _serde::de::Error,
                 {
                     match __value {
-                        0u64 => _serde::export::Ok(__Field::__field0),
-                        1u64 => _serde::export::Ok(__Field::__field1),
-                        2u64 => _serde::export::Ok(__Field::__field2),
-                        3u64 => _serde::export::Ok(__Field::__field3),
-                        _ => _serde::export::Err(_serde::de::Error::invalid_value(
+                        0u64 => _serde::__private::Ok(__Field::__field0),
+                        1u64 => _serde::__private::Ok(__Field::__field1),
+                        2u64 => _serde::__private::Ok(__Field::__field2),
+                        3u64 => _serde::__private::Ok(__Field::__field3),
+                        _ => _serde::__private::Err(_serde::de::Error::invalid_value(
                             _serde::de::Unexpected::Unsigned(__value),
                             &"variant index 0 <= i < 4",
                         )),
                     }
                 }
-                fn visit_str<__E>(self, __value: &str) -> _serde::export::Result<Self::Value, __E>
+                fn visit_str<__E>(
+                    self,
+                    __value: &str,
+                ) -> _serde::__private::Result<Self::Value, __E>
                 where
                     __E: _serde::de::Error,
                 {
                     match __value {
-                        "Unit" => _serde::export::Ok(__Field::__field0),
-                        "NewType" => _serde::export::Ok(__Field::__field1),
-                        "Seq" => _serde::export::Ok(__Field::__field2),
-                        "Map" => _serde::export::Ok(__Field::__field3),
-                        _ => _serde::export::Err(_serde::de::Error::unknown_variant(
+                        "Unit" => _serde::__private::Ok(__Field::__field0),
+                        "NewType" => _serde::__private::Ok(__Field::__field1),
+                        "Seq" => _serde::__private::Ok(__Field::__field2),
+                        "Map" => _serde::__private::Ok(__Field::__field3),
+                        _ => _serde::__private::Err(_serde::de::Error::unknown_variant(
                             __value, VARIANTS,
                         )),
                     }
@@ -171,18 +177,18 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                 fn visit_bytes<__E>(
                     self,
                     __value: &[u8],
-                ) -> _serde::export::Result<Self::Value, __E>
+                ) -> _serde::__private::Result<Self::Value, __E>
                 where
                     __E: _serde::de::Error,
                 {
                     match __value {
-                        b"Unit" => _serde::export::Ok(__Field::__field0),
-                        b"NewType" => _serde::export::Ok(__Field::__field1),
-                        b"Seq" => _serde::export::Ok(__Field::__field2),
-                        b"Map" => _serde::export::Ok(__Field::__field3),
+                        b"Unit" => _serde::__private::Ok(__Field::__field0),
+                        b"NewType" => _serde::__private::Ok(__Field::__field1),
+                        b"Seq" => _serde::__private::Ok(__Field::__field2),
+                        b"Map" => _serde::__private::Ok(__Field::__field3),
                         _ => {
-                            let __value = &_serde::export::from_utf8_lossy(__value);
-                            _serde::export::Err(_serde::de::Error::unknown_variant(
+                            let __value = &_serde::__private::from_utf8_lossy(__value);
+                            _serde::__private::Err(_serde::de::Error::unknown_variant(
                                 __value, VARIANTS,
                             ))
                         }
@@ -191,7 +197,9 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
             }
             impl<'de> _serde::Deserialize<'de> for __Field {
                 #[inline]
-                fn deserialize<__D>(__deserializer: __D) -> _serde::export::Result<Self, __D::Error>
+                fn deserialize<__D>(
+                    __deserializer: __D,
+                ) -> _serde::__private::Result<Self, __D::Error>
                 where
                     __D: _serde::Deserializer<'de>,
                 {
@@ -203,8 +211,8 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                 T: _serde::Deserialize<'de>,
                 U: _serde::Deserialize<'de>,
             {
-                marker: _serde::export::PhantomData<GenericEnum<T, U>>,
-                lifetime: _serde::export::PhantomData<&'de ()>,
+                marker: _serde::__private::PhantomData<GenericEnum<T, U>>,
+                lifetime: _serde::__private::PhantomData<&'de ()>,
             }
             impl<'de, T, U> _serde::de::Visitor<'de> for __Visitor<'de, T, U>
             where
@@ -214,33 +222,33 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                 type Value = GenericEnum<T, U>;
                 fn expecting(
                     &self,
-                    __formatter: &mut _serde::export::Formatter,
-                ) -> _serde::export::fmt::Result {
-                    _serde::export::Formatter::write_str(__formatter, "enum GenericEnum")
+                    __formatter: &mut _serde::__private::Formatter,
+                ) -> _serde::__private::fmt::Result {
+                    _serde::__private::Formatter::write_str(__formatter, "enum GenericEnum")
                 }
                 fn visit_enum<__A>(
                     self,
                     __data: __A,
-                ) -> _serde::export::Result<Self::Value, __A::Error>
+                ) -> _serde::__private::Result<Self::Value, __A::Error>
                 where
                     __A: _serde::de::EnumAccess<'de>,
                 {
                     match match _serde::de::EnumAccess::variant(__data) {
-                        _serde::export::Ok(__val) => __val,
-                        _serde::export::Err(__err) => {
-                            return _serde::export::Err(__err);
+                        _serde::__private::Ok(__val) => __val,
+                        _serde::__private::Err(__err) => {
+                            return _serde::__private::Err(__err);
                         }
                     } {
                         (__Field::__field0, __variant) => {
                             match _serde::de::VariantAccess::unit_variant(__variant) {
-                                _serde::export::Ok(__val) => __val,
-                                _serde::export::Err(__err) => {
-                                    return _serde::export::Err(__err);
+                                _serde::__private::Ok(__val) => __val,
+                                _serde::__private::Err(__err) => {
+                                    return _serde::__private::Err(__err);
                                 }
                             };
-                            _serde::export::Ok(GenericEnum::Unit)
+                            _serde::__private::Ok(GenericEnum::Unit)
                         }
-                        (__Field::__field1, __variant) => _serde::export::Result::map(
+                        (__Field::__field1, __variant) => _serde::__private::Result::map(
                             _serde::de::VariantAccess::newtype_variant::<T>(__variant),
                             GenericEnum::NewType,
                         ),
@@ -250,8 +258,8 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 T: _serde::Deserialize<'de>,
                                 U: _serde::Deserialize<'de>,
                             {
-                                marker: _serde::export::PhantomData<GenericEnum<T, U>>,
-                                lifetime: _serde::export::PhantomData<&'de ()>,
+                                marker: _serde::__private::PhantomData<GenericEnum<T, U>>,
+                                lifetime: _serde::__private::PhantomData<&'de ()>,
                             }
                             impl<'de, T, U> _serde::de::Visitor<'de> for __Visitor<'de, T, U>
                             where
@@ -261,9 +269,10 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 type Value = GenericEnum<T, U>;
                                 fn expecting(
                                     &self,
-                                    __formatter: &mut _serde::export::Formatter,
-                                ) -> _serde::export::fmt::Result {
-                                    _serde::export::Formatter::write_str(
+                                    __formatter: &mut _serde::__private::Formatter,
+                                ) -> _serde::__private::fmt::Result
+                                {
+                                    _serde::__private::Formatter::write_str(
                                         __formatter,
                                         "tuple variant GenericEnum::Seq",
                                     )
@@ -272,7 +281,7 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 fn visit_seq<__A>(
                                     self,
                                     mut __seq: __A,
-                                ) -> _serde::export::Result<Self::Value, __A::Error>
+                                ) -> _serde::__private::Result<Self::Value, __A::Error>
                                 where
                                     __A: _serde::de::SeqAccess<'de>,
                                 {
@@ -281,14 +290,14 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                     >(
                                         &mut __seq
                                     ) {
-                                        _serde::export::Ok(__val) => __val,
-                                        _serde::export::Err(__err) => {
-                                            return _serde::export::Err(__err);
+                                        _serde::__private::Ok(__val) => __val,
+                                        _serde::__private::Err(__err) => {
+                                            return _serde::__private::Err(__err);
                                         }
                                     } {
-                                        _serde::export::Some(__value) => __value,
-                                        _serde::export::None => {
-                                            return _serde :: export :: Err ( _serde :: de :: Error :: invalid_length ( 0usize , & "tuple variant GenericEnum::Seq with 2 elements" ) ) ;
+                                        _serde::__private::Some(__value) => __value,
+                                        _serde::__private::None => {
+                                            return _serde :: __private :: Err (_serde :: de :: Error :: invalid_length (0usize , & "tuple variant GenericEnum::Seq with 2 elements")) ;
                                         }
                                     };
                                     let __field1 = match match _serde::de::SeqAccess::next_element::<
@@ -296,25 +305,25 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                     >(
                                         &mut __seq
                                     ) {
-                                        _serde::export::Ok(__val) => __val,
-                                        _serde::export::Err(__err) => {
-                                            return _serde::export::Err(__err);
+                                        _serde::__private::Ok(__val) => __val,
+                                        _serde::__private::Err(__err) => {
+                                            return _serde::__private::Err(__err);
                                         }
                                     } {
-                                        _serde::export::Some(__value) => __value,
-                                        _serde::export::None => {
-                                            return _serde :: export :: Err ( _serde :: de :: Error :: invalid_length ( 1usize , & "tuple variant GenericEnum::Seq with 2 elements" ) ) ;
+                                        _serde::__private::Some(__value) => __value,
+                                        _serde::__private::None => {
+                                            return _serde :: __private :: Err (_serde :: de :: Error :: invalid_length (1usize , & "tuple variant GenericEnum::Seq with 2 elements")) ;
                                         }
                                     };
-                                    _serde::export::Ok(GenericEnum::Seq(__field0, __field1))
+                                    _serde::__private::Ok(GenericEnum::Seq(__field0, __field1))
                                 }
                             }
                             _serde::de::VariantAccess::tuple_variant(
                                 __variant,
                                 2usize,
                                 __Visitor {
-                                    marker: _serde::export::PhantomData::<GenericEnum<T, U>>,
-                                    lifetime: _serde::export::PhantomData,
+                                    marker: _serde::__private::PhantomData::<GenericEnum<T, U>>,
+                                    lifetime: _serde::__private::PhantomData,
                                 },
                             )
                         }
@@ -330,9 +339,10 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 type Value = __Field;
                                 fn expecting(
                                     &self,
-                                    __formatter: &mut _serde::export::Formatter,
-                                ) -> _serde::export::fmt::Result {
-                                    _serde::export::Formatter::write_str(
+                                    __formatter: &mut _serde::__private::Formatter,
+                                ) -> _serde::__private::fmt::Result
+                                {
+                                    _serde::__private::Formatter::write_str(
                                         __formatter,
                                         "field identifier",
                                     )
@@ -340,43 +350,40 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 fn visit_u64<__E>(
                                     self,
                                     __value: u64,
-                                ) -> _serde::export::Result<Self::Value, __E>
+                                ) -> _serde::__private::Result<Self::Value, __E>
                                 where
                                     __E: _serde::de::Error,
                                 {
                                     match __value {
-                                        0u64 => _serde::export::Ok(__Field::__field0),
-                                        1u64 => _serde::export::Ok(__Field::__field1),
-                                        _ => _serde::export::Err(_serde::de::Error::invalid_value(
-                                            _serde::de::Unexpected::Unsigned(__value),
-                                            &"field index 0 <= i < 2",
-                                        )),
+                                        0u64 => _serde::__private::Ok(__Field::__field0),
+                                        1u64 => _serde::__private::Ok(__Field::__field1),
+                                        _ => _serde::__private::Ok(__Field::__ignore),
                                     }
                                 }
                                 fn visit_str<__E>(
                                     self,
                                     __value: &str,
-                                ) -> _serde::export::Result<Self::Value, __E>
+                                ) -> _serde::__private::Result<Self::Value, __E>
                                 where
                                     __E: _serde::de::Error,
                                 {
                                     match __value {
-                                        "x" => _serde::export::Ok(__Field::__field0),
-                                        "y" => _serde::export::Ok(__Field::__field1),
-                                        _ => _serde::export::Ok(__Field::__ignore),
+                                        "x" => _serde::__private::Ok(__Field::__field0),
+                                        "y" => _serde::__private::Ok(__Field::__field1),
+                                        _ => _serde::__private::Ok(__Field::__ignore),
                                     }
                                 }
                                 fn visit_bytes<__E>(
                                     self,
                                     __value: &[u8],
-                                ) -> _serde::export::Result<Self::Value, __E>
+                                ) -> _serde::__private::Result<Self::Value, __E>
                                 where
                                     __E: _serde::de::Error,
                                 {
                                     match __value {
-                                        b"x" => _serde::export::Ok(__Field::__field0),
-                                        b"y" => _serde::export::Ok(__Field::__field1),
-                                        _ => _serde::export::Ok(__Field::__ignore),
+                                        b"x" => _serde::__private::Ok(__Field::__field0),
+                                        b"y" => _serde::__private::Ok(__Field::__field1),
+                                        _ => _serde::__private::Ok(__Field::__ignore),
                                     }
                                 }
                             }
@@ -384,7 +391,7 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 #[inline]
                                 fn deserialize<__D>(
                                     __deserializer: __D,
-                                ) -> _serde::export::Result<Self, __D::Error>
+                                ) -> _serde::__private::Result<Self, __D::Error>
                                 where
                                     __D: _serde::Deserializer<'de>,
                                 {
@@ -399,8 +406,8 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 T: _serde::Deserialize<'de>,
                                 U: _serde::Deserialize<'de>,
                             {
-                                marker: _serde::export::PhantomData<GenericEnum<T, U>>,
-                                lifetime: _serde::export::PhantomData<&'de ()>,
+                                marker: _serde::__private::PhantomData<GenericEnum<T, U>>,
+                                lifetime: _serde::__private::PhantomData<&'de ()>,
                             }
                             impl<'de, T, U> _serde::de::Visitor<'de> for __Visitor<'de, T, U>
                             where
@@ -410,9 +417,10 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 type Value = GenericEnum<T, U>;
                                 fn expecting(
                                     &self,
-                                    __formatter: &mut _serde::export::Formatter,
-                                ) -> _serde::export::fmt::Result {
-                                    _serde::export::Formatter::write_str(
+                                    __formatter: &mut _serde::__private::Formatter,
+                                ) -> _serde::__private::fmt::Result
+                                {
+                                    _serde::__private::Formatter::write_str(
                                         __formatter,
                                         "struct variant GenericEnum::Map",
                                     )
@@ -421,7 +429,7 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 fn visit_seq<__A>(
                                     self,
                                     mut __seq: __A,
-                                ) -> _serde::export::Result<Self::Value, __A::Error>
+                                ) -> _serde::__private::Result<Self::Value, __A::Error>
                                 where
                                     __A: _serde::de::SeqAccess<'de>,
                                 {
@@ -430,14 +438,14 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                     >(
                                         &mut __seq
                                     ) {
-                                        _serde::export::Ok(__val) => __val,
-                                        _serde::export::Err(__err) => {
-                                            return _serde::export::Err(__err);
+                                        _serde::__private::Ok(__val) => __val,
+                                        _serde::__private::Err(__err) => {
+                                            return _serde::__private::Err(__err);
                                         }
                                     } {
-                                        _serde::export::Some(__value) => __value,
-                                        _serde::export::None => {
-                                            return _serde :: export :: Err ( _serde :: de :: Error :: invalid_length ( 0usize , & "struct variant GenericEnum::Map with 2 elements" ) ) ;
+                                        _serde::__private::Some(__value) => __value,
+                                        _serde::__private::None => {
+                                            return _serde :: __private :: Err (_serde :: de :: Error :: invalid_length (0usize , & "struct variant GenericEnum::Map with 2 elements")) ;
                                         }
                                     };
                                     let __field1 = match match _serde::de::SeqAccess::next_element::<
@@ -445,17 +453,17 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                     >(
                                         &mut __seq
                                     ) {
-                                        _serde::export::Ok(__val) => __val,
-                                        _serde::export::Err(__err) => {
-                                            return _serde::export::Err(__err);
+                                        _serde::__private::Ok(__val) => __val,
+                                        _serde::__private::Err(__err) => {
+                                            return _serde::__private::Err(__err);
                                         }
                                     } {
-                                        _serde::export::Some(__value) => __value,
-                                        _serde::export::None => {
-                                            return _serde :: export :: Err ( _serde :: de :: Error :: invalid_length ( 1usize , & "struct variant GenericEnum::Map with 2 elements" ) ) ;
+                                        _serde::__private::Some(__value) => __value,
+                                        _serde::__private::None => {
+                                            return _serde :: __private :: Err (_serde :: de :: Error :: invalid_length (1usize , & "struct variant GenericEnum::Map with 2 elements")) ;
                                         }
                                     };
-                                    _serde::export::Ok(GenericEnum::Map {
+                                    _serde::__private::Ok(GenericEnum::Map {
                                         x: __field0,
                                         y: __field1,
                                     })
@@ -464,50 +472,50 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 fn visit_map<__A>(
                                     self,
                                     mut __map: __A,
-                                ) -> _serde::export::Result<Self::Value, __A::Error>
+                                ) -> _serde::__private::Result<Self::Value, __A::Error>
                                 where
                                     __A: _serde::de::MapAccess<'de>,
                                 {
-                                    let mut __field0: _serde::export::Option<T> =
-                                        _serde::export::None;
-                                    let mut __field1: _serde::export::Option<U> =
-                                        _serde::export::None;
-                                    while let _serde::export::Some(__key) =
+                                    let mut __field0: _serde::__private::Option<T> =
+                                        _serde::__private::None;
+                                    let mut __field1: _serde::__private::Option<U> =
+                                        _serde::__private::None;
+                                    while let _serde::__private::Some(__key) =
                                         match _serde::de::MapAccess::next_key::<__Field>(&mut __map)
                                         {
-                                            _serde::export::Ok(__val) => __val,
-                                            _serde::export::Err(__err) => {
-                                                return _serde::export::Err(__err);
+                                            _serde::__private::Ok(__val) => __val,
+                                            _serde::__private::Err(__err) => {
+                                                return _serde::__private::Err(__err);
                                             }
                                         }
                                     {
                                         match __key {
                                             __Field::__field0 => {
-                                                if _serde::export::Option::is_some(&__field0) {
-                                                    return _serde :: export :: Err ( < __A :: Error as _serde :: de :: Error > :: duplicate_field ( "x" ) ) ;
+                                                if _serde::__private::Option::is_some(&__field0) {
+                                                    return _serde :: __private :: Err (< __A :: Error as _serde :: de :: Error > :: duplicate_field ("x")) ;
                                                 }
-                                                __field0 = _serde::export::Some(
+                                                __field0 = _serde::__private::Some(
                                                     match _serde::de::MapAccess::next_value::<T>(
                                                         &mut __map,
                                                     ) {
-                                                        _serde::export::Ok(__val) => __val,
-                                                        _serde::export::Err(__err) => {
-                                                            return _serde::export::Err(__err);
+                                                        _serde::__private::Ok(__val) => __val,
+                                                        _serde::__private::Err(__err) => {
+                                                            return _serde::__private::Err(__err);
                                                         }
                                                     },
                                                 );
                                             }
                                             __Field::__field1 => {
-                                                if _serde::export::Option::is_some(&__field1) {
-                                                    return _serde :: export :: Err ( < __A :: Error as _serde :: de :: Error > :: duplicate_field ( "y" ) ) ;
+                                                if _serde::__private::Option::is_some(&__field1) {
+                                                    return _serde :: __private :: Err (< __A :: Error as _serde :: de :: Error > :: duplicate_field ("y")) ;
                                                 }
-                                                __field1 = _serde::export::Some(
+                                                __field1 = _serde::__private::Some(
                                                     match _serde::de::MapAccess::next_value::<U>(
                                                         &mut __map,
                                                     ) {
-                                                        _serde::export::Ok(__val) => __val,
-                                                        _serde::export::Err(__err) => {
-                                                            return _serde::export::Err(__err);
+                                                        _serde::__private::Ok(__val) => __val,
+                                                        _serde::__private::Err(__err) => {
+                                                            return _serde::__private::Err(__err);
                                                         }
                                                     },
                                                 );
@@ -518,37 +526,37 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                                 >(
                                                     &mut __map
                                                 ) {
-                                                    _serde::export::Ok(__val) => __val,
-                                                    _serde::export::Err(__err) => {
-                                                        return _serde::export::Err(__err);
+                                                    _serde::__private::Ok(__val) => __val,
+                                                    _serde::__private::Err(__err) => {
+                                                        return _serde::__private::Err(__err);
                                                     }
                                                 };
                                             }
                                         }
                                     }
                                     let __field0 = match __field0 {
-                                        _serde::export::Some(__field0) => __field0,
-                                        _serde::export::None => {
-                                            match _serde::private::de::missing_field("x") {
-                                                _serde::export::Ok(__val) => __val,
-                                                _serde::export::Err(__err) => {
-                                                    return _serde::export::Err(__err);
+                                        _serde::__private::Some(__field0) => __field0,
+                                        _serde::__private::None => {
+                                            match _serde::__private::de::missing_field("x") {
+                                                _serde::__private::Ok(__val) => __val,
+                                                _serde::__private::Err(__err) => {
+                                                    return _serde::__private::Err(__err);
                                                 }
                                             }
                                         }
                                     };
                                     let __field1 = match __field1 {
-                                        _serde::export::Some(__field1) => __field1,
-                                        _serde::export::None => {
-                                            match _serde::private::de::missing_field("y") {
-                                                _serde::export::Ok(__val) => __val,
-                                                _serde::export::Err(__err) => {
-                                                    return _serde::export::Err(__err);
+                                        _serde::__private::Some(__field1) => __field1,
+                                        _serde::__private::None => {
+                                            match _serde::__private::de::missing_field("y") {
+                                                _serde::__private::Ok(__val) => __val,
+                                                _serde::__private::Err(__err) => {
+                                                    return _serde::__private::Err(__err);
                                                 }
                                             }
                                         }
                                     };
-                                    _serde::export::Ok(GenericEnum::Map {
+                                    _serde::__private::Ok(GenericEnum::Map {
                                         x: __field0,
                                         y: __field1,
                                     })
@@ -559,8 +567,8 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                                 __variant,
                                 FIELDS,
                                 __Visitor {
-                                    marker: _serde::export::PhantomData::<GenericEnum<T, U>>,
-                                    lifetime: _serde::export::PhantomData,
+                                    marker: _serde::__private::PhantomData::<GenericEnum<T, U>>,
+                                    lifetime: _serde::__private::PhantomData,
                                 },
                             )
                         }
@@ -573,8 +581,8 @@ const _IMPL_DESERIALIZE_FOR_GenericEnum: () = {
                 "GenericEnum",
                 VARIANTS,
                 __Visitor {
-                    marker: _serde::export::PhantomData::<GenericEnum<T, U>>,
-                    lifetime: _serde::export::PhantomData,
+                    marker: _serde::__private::PhantomData::<GenericEnum<T, U>>,
+                    lifetime: _serde::__private::PhantomData,
                 },
             )
         }
