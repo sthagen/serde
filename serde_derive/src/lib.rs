@@ -13,7 +13,7 @@
 //!
 //! [https://serde.rs/derive.html]: https://serde.rs/derive.html
 
-#![doc(html_root_url = "https://docs.rs/serde_derive/1.0.124")]
+#![doc(html_root_url = "https://docs.rs/serde_derive/1.0.125")]
 #![allow(unknown_lints, bare_trait_objects)]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints
@@ -43,6 +43,8 @@
     clippy::let_underscore_drop,
     clippy::map_err_ignore,
     clippy::match_same_arms,
+    // clippy bug: https://github.com/rust-lang/rust-clippy/issues/6984
+    clippy::match_wildcard_for_single_variants,
     clippy::module_name_repetitions,
     clippy::must_use_candidate,
     clippy::option_if_let_else,
