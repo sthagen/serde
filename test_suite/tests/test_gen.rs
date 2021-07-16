@@ -3,10 +3,11 @@
 // types involved.
 
 #![deny(warnings)]
-#![cfg_attr(feature = "unstable", feature(non_ascii_idents))]
 #![allow(
     unknown_lints,
     mixed_script_confusables,
+    // Clippy bug: https://github.com/rust-lang/rust-clippy/issues/7422
+    clippy::nonstandard_macro_braces,
     clippy::ptr_arg,
     clippy::trivially_copy_pass_by_ref
 )]
@@ -267,7 +268,6 @@ fn test_gen() {
     }
     assert::<EmptyEnumVariant>();
 
-    #[cfg(feature = "unstable")]
     #[derive(Serialize, Deserialize)]
     struct NonAsciiIdents {
         σ: f64,
@@ -643,7 +643,7 @@ fn test_gen() {
     assert::<SkippedVariant<X>>();
 
     #[derive(Deserialize)]
-    struct ImpliciltyBorrowedOption<'a> {
+    struct ImplicitlyBorrowedOption<'a> {
         option: std::option::Option<&'a str>,
     }
 

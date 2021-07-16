@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/serde_derive_internals/0.25.0")]
+#![doc(html_root_url = "https://docs.rs/serde_derive_internals/0.26.0")]
 #![allow(unknown_lints, bare_trait_objects)]
 #![deny(clippy::all, clippy::pedantic)]
 // Ignored clippy lints
@@ -40,7 +40,8 @@ extern crate syn;
 extern crate proc_macro2;
 extern crate quote;
 
-#[path = "src/mod.rs"]
+#[cfg_attr(serde_build_from_git, path = "../serde_derive/src/internals/mod.rs")]
+#[cfg_attr(not(serde_build_from_git), path = "src/mod.rs")]
 mod internals;
 
 pub use internals::*;

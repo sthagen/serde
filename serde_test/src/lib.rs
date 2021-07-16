@@ -144,7 +144,7 @@
 //! # }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/serde_test/1.0.125")]
+#![doc(html_root_url = "https://docs.rs/serde_test/1.0.126")]
 #![cfg_attr(feature = "cargo-clippy", allow(renamed_and_removed_lints))]
 #![cfg_attr(feature = "cargo-clippy", deny(clippy, clippy_pedantic))]
 // Ignored clippy lints
@@ -153,6 +153,7 @@
 #![cfg_attr(
     feature = "cargo-clippy",
     allow(
+        cloned_instead_of_copied,
         empty_line_after_outer_attr,
         missing_docs_in_private_items,
         missing_panics_doc,
